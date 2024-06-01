@@ -1,4 +1,4 @@
-# DeepLeMiN_private
+# DeepLeMiN: Learned Lensless Miniscope
 Feng Tian, Ben Mattison, Weijian Yang "DeepLeMiN: Deep-learning-powered Physics-aware Lensless Miniscope"
 ### Clone this repository:
 ```
@@ -24,5 +24,5 @@ Output: reconstructed 4-D volumetric video containing 3-dimensional distribution
 ## schematic of imager
 ![schematicimager](https://github.com/Fengshub/3D-Microscope/blob/main/imgs/schematicimager.PNG)
 ## assembled imager
-![assembleimager](https://github.com/Fengshub/3D-Microscope/blob/main/imgs/assembleimager.png)
+![assembleimager](https://github.com/Fengshub/DeepLeMiN-Learned-Lensless-Miniscope/blob/main/imgs/assembleimager.jpg)
 
