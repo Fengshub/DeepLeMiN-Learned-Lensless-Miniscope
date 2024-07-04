@@ -7,8 +7,8 @@ Created on Tue May 28 23:43:49 2024
 
 # %% 1
 import tensorflow as tf
-physical_devices = tf.config.list_physical_devices('GPU') 
-tf.config.experimental.set_memory_growth(physical_devices[0], True)
+#physical_devices = tf.config.list_physical_devices('GPU') 
+#tf.config.experimental.set_memory_growth(physical_devices[0], True)
 import keras
 # from keras import layers
 from keras import backend as K
@@ -122,22 +122,28 @@ class Hadamard_x(Layer):
         # print(input_shape)
         return input_shape
 # %%
-reconM=keras.models.load_model('reconM_0308_z5', custom_objects={'Hadamard_i': Hadamard_i,'Hadamard_x': Hadamard_x,'ssim':ssim})
+reconMz5=keras.models.load_model('../../data/2D_lenstissue/reconM_0308_z5', custom_objects={'Hadamard_i': Hadamard_i,'Hadamard_x': Hadamard_x,'ssim':ssim})
 
 # %%
 from scipy.io import loadmat
 import mat73
-datav1 = loadmat('data_2d_lenstissue.mat')
+datav1 = loadmat('../../data/2D_lenstissue/data_2d_lenstissue.mat')
 Xt=datav1['Xt']
 Xt=Xt.astype('float32')
 Yt=datav1['Yt']
 Yt=Yt.astype('float32')
 # %%
-Y=np.zeros((15,132,132,108))
+# from scipy.io import loadmat
+# import mat73
+# datav1 = loadmat('dataYts.mat')
+# Yt=datav1['Yts']
+# Yt=Yt.astype('float32')
+# %%
+Y=np.zeros((15,180,180,108))
 # %%
 import scipy
 rcof=0
-vid=50
+vid=30
 rmin=rcof
 rmax=Y.shape[1]-rcof
 cmin=rcof
@@ -150,8 +156,10 @@ generated_images=reconM.predict(temp)
 # generated_images=generated_images[0]
 plt.imshow(generated_images[0,rmin:rmax,cmin:cmax,vid],clim=(0,9e-1))
 # %%
+# reconM.evaluate(Xt[0:1],Yt[0:1])
+# %%
 from scipy.io import savemat
-savemat('gen_lenstissue.mat', {"generated_images": generated_images})
+# savemat('gen_lenstissue.mat', {"generated_images": generated_images})
 
 
 

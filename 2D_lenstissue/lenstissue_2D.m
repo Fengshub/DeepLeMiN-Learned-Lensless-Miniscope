@@ -34,7 +34,7 @@ Yc=zeros(size(Y,2),size(Y,3));
     end
 %% plot combined reconstruction FOV patches
 Yv=zeros(size(Y,2),size(Y,3));
-load(['gen_lenstissue.mat'])
+load(['../../data/2D_lenstissue/gen_lenstissue.mat'])
 gen=double(squeeze(generated_images));
 for lid=1:108
     Yv(lxg(lid)-Ytssize:lxg(lid)+Ytssize-1,lyg(lid)-Ytssize:lyg(lid)+Ytssize-1)=Yv(lxg(lid)-Ytssize:lxg(lid)+Ytssize-1,lyg(lid)-Ytssize:lyg(lid)+Ytssize-1)+gen(:,:,lid);
@@ -45,3 +45,6 @@ figure
 Yvv=(Yv./max(Yc,1));
 imagesc(Yvv)
 daspect([1 1 1])
+% save plots
+%imwrite(Yvv,'../../data/2D_lenstissue/2D_lenstissue_plot.jpg')
+saveas(gcf, '../results/2D_lenstissue_reconstruction.png')
