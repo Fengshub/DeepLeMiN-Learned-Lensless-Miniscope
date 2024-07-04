@@ -1,5 +1,5 @@
 %% load reconstructed 3D video
-load('gen_img_recd_video0003 24-04-04 18-31-11_abetterrecordlong_03560_1_290_v4.mat')
+load('../../data/3D_mouse/gen_img_recd_video0003 24-04-04 18-31-11_abetterrecordlong_03560_1_290_v4.mat')
 gen=squeeze(generated_images_fu);
 %% assemble 6-FOV into single FOV 
 lx=[512 1536 512 1536 512 1536];
@@ -54,8 +54,8 @@ Yv2m=Yv2(:,90:428,37:434,:);
 Yv2m2=Yv2m;
 Yv2mte=zeros([size(Yv2,2),size(Yv2,3),size(Yv2,4)]);
 for idxd=1:13
-    for idx1=11:size(Yv2,2)-10 % reduced calculation area to increase speed
-        for idx2=11:size(Yv2,3)-10
+    for idx1=11:size(Yv2m,2)-10 % reduced calculation area to increase speed
+        for idx2=11:size(Yv2m,3)-10
             corrtmax=[];
             traceref=squeeze(Yv2m2(:,idx1,idx2,idxd));
             
@@ -93,7 +93,17 @@ for idxd=1:13
         end
     end
 end
-
+%% plot top view
+figure
+gamma=0.6; % adjust color distribution vs intensity
+temp=squeeze(sum(Yv2mte,3));
+temp=temp/max(temp(:));
+temp=temp.^gamma;
+temp=temp*255;
+imagesc(uint8(temp))
+daspect([1 1 1])
+axis off
+saveas(gcf, '../results/3D_mouse_topview.png')
 
 %% 3D iterative clustering
 %% iterative thresholding
@@ -195,15 +205,16 @@ for idx=1:length(cx)
 end
 %%
 figure
-histogram(hi*4.86)
+histogram(hi*4.86,[0 5 10 15 20 25 30 35 40 45 50 55 60])
 % axis off
-xlim([0 45])
+xlim([0 60])
 grid on
 ax=gca;
 ax.FontSize=20;
 title('lateral fwhm')
 xlabel('\mum')
 ylabel('number of clusters')
+saveas(gcf, '../results/3D_mouse_lateralhistogram.png')
 %%
 recon_rec5s=sum(recon_rec5,3);
 [cx,cy]=find(recon_rec5s~=0);
@@ -235,3 +246,4 @@ xlim([100 300])
 title('axial fwhm')
 xlabel('\mum')
 ylabel('number of clusters')
+saveas(gcf, '../results/3D_mouse_axialhistogram.png')

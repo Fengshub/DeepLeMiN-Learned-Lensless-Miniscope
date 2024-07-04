@@ -6,8 +6,8 @@ Created on Fri Apr  5 15:24:03 2024
 """
 # %% 1
 import tensorflow as tf
-physical_devices = tf.config.list_physical_devices('GPU') 
-tf.config.experimental.set_memory_growth(physical_devices[0], True)
+# physical_devices = tf.config.list_physical_devices('GPU') 
+# tf.config.experimental.set_memory_growth(physical_devices[0], True)
 import keras
 # from keras import layers
 from keras import backend as K
@@ -205,7 +205,7 @@ def c_o4(y_pred,y_true):
     loss=tf.math.reduce_mean(loss)
     return loss#+loss4#+lossbce#loss1+loss2
 # %%
-reconM_g704_z5=keras.models.load_model('reconM_g704_z5_v4', custom_objects={'Hadamard_i': Hadamard_i,'Hadamard_x': Hadamard_x,'c_o4': c_o4})
+reconM_g704_z5=keras.models.load_model('../../data/3D_mouse/reconM_g704_z5_v4', custom_objects={'Hadamard_i': Hadamard_i,'Hadamard_x': Hadamard_x,'c_o4': c_o4})
 
 
 
@@ -213,7 +213,7 @@ reconM_g704_z5=keras.models.load_model('reconM_g704_z5_v4', custom_objects={'Had
 # %% 7 datasets
 from scipy.io import loadmat
 import mat73
-datav1=mat73.loadmat("t_img_recd_video0003 24-04-04 18-31-11_abetterrecordlong_03560_1_290.mat")
+datav1=mat73.loadmat("../../data/3D_mouse/t_img_recd_video0003 24-04-04 18-31-11_abetterrecordlong_03560_1_290.mat")
 Xt=datav1['Xts']
 Xt=Xt.astype('float32')
 # Xt=Xt[0:1,:,:,72:73]
@@ -254,8 +254,9 @@ xflag=1
 yflag=1
 gimid=1
 
-generated_images_f=np.zeros((vfn,6,416,416,13))
-for pid in range(0,vfn):
+vfn_test=1
+generated_images_f=np.zeros((vfn_test,6,416,416,13))
+for pid in range(0,vfn_test):
     print(pid)
     temp=Xt[pid]**gamma
     temp=temp/np.max(temp)
@@ -275,7 +276,7 @@ vid=0
 for idx in range(0,12):
     # plt.figure(idx)
     ax=plt.subplot(3,4,idx+1)
-    tempr=generated_images_f[100,vid,rmin:rmax,cmin:cmax,idx]/np.max(generated_images[0,:,rmin:rmax,cmin:cmax,:])
+    tempr=generated_images_f[0,vid,rmin:rmax,cmin:cmax,idx]/np.max(generated_images[0,:,rmin:rmax,cmin:cmax,:])
     # temp=(generated_images[0,rmin:rmax,cmin:cmax,:]/np.max(generated_images[0,rmin:rmax,cmin:cmax,:]))**gamma
     # plt.imshow(tempr,clim=(np.mean(temp)-std1*np.std(temp),np.mean(temp)+std2*np.std(temp)))
     plt.imshow(tempr,clim=(0,1))
